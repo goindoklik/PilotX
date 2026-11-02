@@ -66,7 +66,14 @@ function App() {
       if (active) setAuthLoading(false)
     })
     const { data: listener } = supabase.auth.onAuthStateChange((_event, nextSession) => {
-      if (active) setSession(nextSession)
+      if (!active) return
+      if (nextSession && nextSession.user.app_metadata?.role !== 'admin') {
+        setSession(null)
+        void supabase.auth.signOut()
+        setAuthError('Akun ini belum memiliki akses admin PilotX.')
+        return
+      }
+      setSession(nextSession)
     })
     return () => {
       active = false
