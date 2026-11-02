@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
 import {
-  Activity, CalendarDays, Camera, CheckCircle2, ChevronDown, CircleHelp,
-  ClipboardList, CloudUpload, Image as ImageIcon, LayoutDashboard, LogOut,
-  MessageCircle, MoreHorizontal, Search, Settings, ShieldCheck, Users, X
+  Activity, CalendarDays, Camera, CheckCircle2, CircleHelp,
+  ClipboardList, CloudUpload, Image as ImageIcon, LayoutDashboard,
+  MessageCircle, MoreHorizontal, Settings, ShieldCheck, Users, X
 } from 'lucide-react'
 import { isSupabaseConfigured } from './lib/supabase'
 
@@ -18,11 +18,9 @@ const navItems: { id: Page; label: string; icon: typeof LayoutDashboard }[] = [
 
 function App() {
   const [page, setPage] = useState<Page>('dashboard')
-  const [previewMode, setPreviewMode] = useState(false)
   const [eventDate, setEventDate] = useState('')
   const [imageName, setImageName] = useState('')
   const [imagePreview, setImagePreview] = useState('')
-  const [search, setSearch] = useState('')
   const [notice, setNotice] = useState('')
 
   const pageTitle = useMemo(() => navItems.find((item) => item.id === page)?.label ?? 'Dashboard', [page])
