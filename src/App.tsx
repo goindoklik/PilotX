@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { FormEvent } from 'react'
+import type { FormEvent, ReactNode } from 'react'
 import type { Session } from '@supabase/supabase-js'
 import {
   Activity, CalendarDays, Camera, CheckCircle2, CircleHelp, ClipboardList,
@@ -222,7 +222,7 @@ function Dashboard({ onOpen, eventCount, guestCount, attendingCount }: { onOpen:
   </>
 }
 
-function StatCard({ label, value, note, icon, tone }: { label: string; value: string | number; note: string; icon: React.ReactNode; tone: string }) {
+function StatCard({ label, value, note, icon, tone }: { label: string; value: string | number; note: string; icon: ReactNode; tone: string }) {
   return <div className="stat-card"><div className="stat-top"><span>{label}</span><div className={`stat-icon ${tone}`}>{icon}</div></div><strong>{value}</strong><small>{note}</small></div>
 }
 
