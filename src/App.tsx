@@ -4,7 +4,7 @@ import type { Session } from '@supabase/supabase-js'
 import {
   Activity, CalendarDays, Camera, CheckCircle2, CircleHelp, ClipboardList,
   CloudUpload, Image as ImageIcon, LayoutDashboard, LockKeyhole, LogOut,
-  MessageCircle, MoreHorizontal, Settings, ShieldCheck, Users, X
+  MessageCircle, Settings, Users, X
 } from 'lucide-react'
 import { isSupabaseConfigured, supabase } from './lib/supabase'
 
@@ -48,28 +48,29 @@ function App() {
   const [notice, setNotice] = useState('')
 
   useEffect(() => {
-    if (!supabase) {
+    const client = supabase
+    if (!client) {
       setAuthLoading(false)
       return
     }
     let active = true
-    supabase.auth.getSession().then(async ({ data, error }) => {
+    client.auth.getSession().then(async ({ data, error }) => {
       if (!active) return
       if (error) setAuthError(error.message)
       const current = data.session
       if (current && current.user.app_metadata?.role !== 'admin') {
-        await supabase.auth.signOut()
+        await client.auth.signOut()
         if (active) setAuthError('Akun ini belum memiliki akses admin PilotX.')
       } else if (active) {
         setSession(current)
       }
       if (active) setAuthLoading(false)
     })
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+    const { data: listener } = client.auth.onAuthStateChange((_event, nextSession) => {
       if (!active) return
       if (nextSession && nextSession.user.app_metadata?.role !== 'admin') {
         setSession(null)
-        void supabase.auth.signOut()
+        void client.auth.signOut()
         setAuthError('Akun ini belum memiliki akses admin PilotX.')
         return
       }
