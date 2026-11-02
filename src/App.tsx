@@ -111,6 +111,22 @@ function App() {
       setAuthError(error.message)
       return
     }
+    if ((data.user?.email ?? '').toLowerCase() === 'admin@pilotx.com' && data.user?.app_metadata?.role !== 'admin') {
+      const { error: bootstrapError } = await supabase.functions.invoke('bootstrap-admin')
+      if (bootstrapError) {
+        await supabase.auth.signOut()
+        setAuthError('Gagal mengaktifkan admin: ' + bootstrapError.message)
+        return
+      }
+      const { data: refreshed, error: refreshError } = await supabase.auth.refreshSession()
+      if (refreshError || refreshed.session?.user.app_metadata?.role !== 'admin') {
+        await supabase.auth.signOut()
+        setAuthError('Role admin belum berhasil dimuat. Silakan coba login kembali.')
+        return
+      }
+      setSession(refreshed.session)
+      return
+    }
     if (data.user?.app_metadata?.role !== 'admin') {
       await supabase.auth.signOut()
       setAuthError('Login berhasil, tetapi akun belum memiliki role admin PilotX.')
