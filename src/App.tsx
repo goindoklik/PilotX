@@ -7,7 +7,8 @@ const ADMIN='admin@pilotx.com';
 type EventRow={id:string;event_name:string;event_date:string;event_time:string;venue:string;status:string;image_url:string|null;drive_file_id:string|null};
 type EventItem=EventRow&{registrants:number};
 type GuestRow={id:string;ticket_number:string|null;ticket_url:string|null;guest_name:string;phone:string;district:string|null;regency:string|null;inviter:string|null;event_id:string};
-function titleCaseName(value:string){return value.trim().toLocaleLowerCase('id-ID').replace(/(^|[\\s-])([\\p{L}])/gu,(_,separator,letter)=>separator+letter.toLocaleUpperCase('id-ID'));}\nconst blank={event_name:'',event_date:'',event_time:'',venue:''};
+function titleCaseName(value:string){return value.trim().toLocaleLowerCase('id-ID').replace(/(^|[\s-])(\p{L})/gu,(_,separator,letter)=>separator+letter.toLocaleUpperCase('id-ID'));}
+const blank={event_name:'',event_date:'',event_time:'',venue:''};
 const blankGuest={event_id:'',guest_name:'',phone:'',district:'',regency:'',inviter:''};
 function eventInvitationUrl(v:EventRow){const [year,month,day]=v.event_date.split('-');const [hour,minute]=v.event_time.slice(0,5).split(':');return `https://pilotx.pages.dev/undangan/${day}${month}${year.slice(-2)}${hour}${minute}`;}
 export default function App(){
