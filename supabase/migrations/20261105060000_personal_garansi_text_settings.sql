@@ -7,14 +7,20 @@ create table if not exists public.pilotx_settings (
 
 alter table public.pilotx_settings enable row level security;
 
+drop policy if exists pilotx_settings_admin_select on public.pilotx_settings;
+drop policy if exists "PilotX admin can read settings" on public.pilotx_settings;
 create policy "PilotX admin can read settings"
 on public.pilotx_settings for select to authenticated
 using ((select lower(auth.jwt()->>'email')) = 'admin@pilotx.com');
 
+drop policy if exists pilotx_settings_admin_insert on public.pilotx_settings;
+drop policy if exists "PilotX admin can insert settings" on public.pilotx_settings;
 create policy "PilotX admin can insert settings"
 on public.pilotx_settings for insert to authenticated
 with check ((select lower(auth.jwt()->>'email')) = 'admin@pilotx.com');
 
+drop policy if exists pilotx_settings_admin_update on public.pilotx_settings;
+drop policy if exists "PilotX admin can update settings" on public.pilotx_settings;
 create policy "PilotX admin can update settings"
 on public.pilotx_settings for update to authenticated
 using ((select lower(auth.jwt()->>'email')) = 'admin@pilotx.com')
