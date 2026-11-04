@@ -58,7 +58,7 @@ export async function generateInvitationBase64(eventDate: string, eventTime: str
   ctx.fillStyle = '#fffdf8';
   ctx.fillRect(706, 620, 414, 51);
   ctx.fillRect(706, 746, 310, 58);
-  ctx.fillRect(706, 815, 414, 53);
+  ctx.fillRect(706, 822, 414, 46);
   ctx.fillRect(706, 868, 414, 70);
   ctx.textBaseline = 'alphabetic';
   ctx.fillStyle = '#c51d24';
